@@ -3,4 +3,4 @@ project(2110Project1)
 
 set(CMAKE_CXX_STANDARD 98)
 
-add_executable(CLion_Projects main.cpp Vector.h)
+add_executable(CLion_Projects main.cpp Bvector.h Bvector.cpp)
