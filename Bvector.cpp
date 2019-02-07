@@ -1,5 +1,5 @@
 //
-// Created by josep on 2/4/2019.
+// Created by Joseph Fergen on 2/4/2019.
 //
 #include "Bvector.h"
 
@@ -12,6 +12,11 @@ Bvector::Bvector(int s)
 bool Bvector::insert(int p)
 {
     member.at(p) = true;
+}
+
+bool Bvector::remove(int r)
+{
+    member.at(r) = false;
 }
 
 void Bvector::print()

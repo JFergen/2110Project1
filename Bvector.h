@@ -18,7 +18,7 @@ public:
     explicit Bvector(int s);
     bool insert(int p);
     void print();
-    bool remove(string s);
+    bool remove(int r);
 private:
     int size;
     vector<bool> member;
