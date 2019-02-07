@@ -6,41 +6,20 @@
 Bvector::Bvector(int s)
 {
     size = s;
-    lookup[size];
-    member[size];
+    member.resize(size);
 }
 
-void Bvector::insert(string s) // TODO: Crashes when running this
+bool Bvector::insert(int p)
 {
-    for(int i = 0; i < size; i++)
+    member.at(p) = true;
+}
+
+void Bvector::print()
+{
     {
-        if(lookup[i] == s)
+        for (int i = 0; i < size; i++)
         {
-            member[i] = true;
-            return;
+            cout << setw(10) << member.at(i) << "\t";
         }
-    }
-}
-
-bool Bvector::contains(string s)
-{
-    for(int i = 0; i < size; i++) {
-        if (lookup[i] == s) //&& member[i] == 1) { // TODO: This works fine without member right now?
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
-void Bvector::SetLookup(string s) // TODO: How do get the lookup vector made in correct order?
-{
-    istringstream lookupString(s);
-    string parseHelps;
-
-    while (getline(lookupString, parseHelps, ','))
-    {
-        lookup.push_back(parseHelps);
-        //insert(parseHelps);
     }
 }

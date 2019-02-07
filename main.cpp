@@ -4,10 +4,12 @@ using namespace std;
 
 int main() {
     string fileName; // File where list of dishes are contained
-    string foodItems; // Should be a list separated by commas
-    vector<string> foodList; // Vector of all different food items (Universal Set)
+    string foodItems; // Should be a list separated by commas (Universal Set)
+    vector<string> foodList; // Used to print out the menu of Universal Set
+    vector<string> ingredientList; // Vector to hold ingredients for each dish
     vector<Bvector> vecList; // Vector of all the different bit vectors
-    int vecParse = 0;
+    bool addToVec;
+    int nextVec = 0;
 
     cout << "Enter filename containing list of dishes: ";  // Gets filename to open from user
     cin >> fileName;
@@ -18,44 +20,72 @@ int main() {
     fin >> foodItems; // Should be a list separated by commas. (Universal Set)
 
     istringstream foodRead(foodItems); // String stream used to separate commas from list
-    string parseHelp; // Used to help with parsing through list
+    string dishName;
+    string dishIngredients; // Used to help with parsing through list
 
-    while (getline(foodRead, parseHelp, ',')) // Parses through the comma'd list and sets each food item to be an element in vector
+    while (getline(foodRead, dishIngredients, ',')) // Parses through the comma'd list and sets each food item to be an element in vector
     {
-        foodList.push_back(parseHelp);
+        foodList.push_back(dishIngredients); // Used to print out menu
     }
 
-    cout << "Dish Name:" << "\t"; // Printing out dishes and items
+    cout << setw(16) << "Dish Name" << ":"; // Printing out all the ingredients (universal set) (Menu)
     for(int i = 0; i < foodList.size(); i++)
     {
-        cout << foodList.at(i) << "\t";
+        cout << setw(10) << foodList.at(i);
     }
-        cout << endl;
+    cout << endl;
+    fin.ignore();
 
-    while(getline(fin, parseHelp, ':'))
+    while(getline(fin, dishName, ':'))
     {
-        cout << parseHelp << ":" << "\t";
-        Bvector tmpBVector(foodList.size());       // TODO: How do I create a new bit vector for every loop
+        Bvector tmpBVector(foodList.size());
+        addToVec = true;
 
-        getline(fin, parseHelp);
-        tmpBVector.SetLookup(parseHelp);
-        //vecList.at(vecParse) = tmpBVector;              // TODO: Add a new bit vector to the list of bit vector every loop
+        fin >> dishIngredients;
+        foodRead.str(dishIngredients);
+        foodRead.clear();
 
-        for(int i = 0; i < foodList.size(); i++)
+        while (getline(foodRead, dishIngredients, ',')) // Parses through the comma'd list and sets each food item to be an element in vector
         {
-          if(tmpBVector.contains(foodList.at(i)))
-          {
-              cout << "1" << "\t";
-          }
-          else
-          {
-              cout << "0" << "\t";
-          }
+            ingredientList.push_back(dishIngredients); // Ingredient list for each individual dish
         }
 
-        cout << endl;
-        vecParse++;
+
+        for(int i = 0; i < ingredientList.size(); i++) // Adds element to Bit vector if it is universal set
+        {
+            for(int j = 0; j < foodList.size(); j++)
+            {
+                if(j == foodList.size()) // This dish can not be made with current ingredients //TODO: THIS NEVER HAPPENDS FOR SOME REASON
+                {
+                    cout << dishName << " can not be made. We do not have " << ingredientList.at(i) << endl;
+                    getline(fin, dishName);
+                    fin.ignore();
+                    addToVec = false;
+                    continue;
+                }
+                if(ingredientList.at(i) == foodList.at(j))
+                {
+                    tmpBVector.insert(j);
+                }
+            }
+        }
+
+        if(addToVec) // TODO: FIX FORMATTING
+        {
+            cout << setw(16) << dishName << ":";
+            vecList.push_back(tmpBVector);
+
+            vecList.at(nextVec).print();
+
+            cout << endl;
+            fin.ignore();
+            nextVec++;
+        }
+
+        ingredientList.clear();
+        ingredientList.resize(0);
     }
 
+    fin.close();
     return 0;
 }

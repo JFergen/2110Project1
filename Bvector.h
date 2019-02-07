@@ -9,20 +9,19 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <iomanip>
 using namespace std;
 
 class Bvector
 {
 public:
     explicit Bvector(int s);
-    void insert(string s);
-    bool contains(string s);
+    bool insert(int p);
+    void print();
     bool remove(string s);
-    void SetLookup(string s);
 private:
     int size;
     vector<bool> member;
-    vector<string> lookup;
 };
 
 #endif //CLION_PROJECTS_VECTOR_H
