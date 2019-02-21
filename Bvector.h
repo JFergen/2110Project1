@@ -16,9 +16,12 @@ class Bvector
 {
 public:
     explicit Bvector(int s);
-    bool insert(int p);
+    void setMember(vector<bool> mem);
+    int getSize();
+    vector<bool> getMember();
+    void insert(int p);
     void print();
-    bool remove(int r);
+    void remove(int r);
 private:
     int size;
     vector<bool> member;

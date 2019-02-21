@@ -1,17 +1,19 @@
 #include "Bvector.h"
+#include "SetOperations.h"
 #include <fstream>
 using namespace std;
 
 int main() {
     string fileName; // File where list of dishes are contained
     string foodItems; // Should be a list separated by commas (Universal Set)
-    vector<string> foodList; // Used to print out the menu of Universal Set
     vector<string> ingredientList; // Vector to hold ingredients for each dish
+    vector<string> foodList; // Used to print out the menu of Universal Set
     vector<Bvector> vecList; // Vector of all the different bit vectors
     vector<string> failedItems; // Vector to hold the dishes that can not be made
     bool addToVec; // Decides if the vector is added to list
     bool continueOn; // Continue on to next stop only if this is true
     int nextVec = 0; // Next vector to add
+    int startSize; // Starting size of vector
 
     cout << "Enter filename containing list of dishes: ";  // Gets filename to open from user
     cin >> fileName;
@@ -70,7 +72,7 @@ int main() {
             }
         }
 
-        if(addToVec) // TODO: FIX FORMATTING
+        if(addToVec)
         {
             cout << setw(16) << dishName << ":";
             vecList.push_back(tmpBVector);
@@ -85,6 +87,77 @@ int main() {
         ingredientList.resize(0);
     }
 
+    cout << "------------------------------------------------------------------------------------------------" << endl;
+
+    //"At Least One"
+    startSize = vecList.size(); // Starting size of vecList before the loops
+    vector<bool> tempUnion(foodList.size()); // Used to hold the "At Least One" vector
+    for(int i = 0; i < startSize; i++) // Unioning everything together to get "At Least One"
+    {
+        tempUnion = Union(tempUnion, vecList.at(i).getMember()); // Unions together everything
+
+        if(i == (startSize - 1))
+        {
+            Bvector pushUnion(foodList.size());
+            pushUnion.setMember(tempUnion);
+
+            vecList.push_back(pushUnion);
+        }
+    }
+
+    cout << setw(16) << "At Least One" << ":";
+    vecList.at(nextVec).print();
+    cout << endl;
+    ++nextVec;
+
+    //"More Than One"
+    vector<bool> tempA(vecList.size());
+    vector<bool> tempB(vecList.size());
+
+    for(int i = 0; i < vecList.size() - 1; i++)
+    {
+        for(int j = i + 1; j < vecList.size() - 1; j++)
+        {
+            tempA = Intersection(vecList.at(i).getMember(), vecList.at(j).getMember());
+            tempB = Union(tempA, tempB);
+        }
+    }
+
+    Bvector pushMoreOne(foodList.size());
+    pushMoreOne.setMember(tempB);
+    vecList.push_back(pushMoreOne);
+
+    cout << setw(16) << "More Than One" << ":";
+    vecList.at(nextVec).print();
+    cout << endl;
+    ++nextVec;
+
+   //"Exactly One"
+   vector<bool> tempDifference(vecList.size());
+   tempDifference = SymmDifference(tempUnion, tempB); // Symm Difference from "At Least One" and "More Than One"
+
+   Bvector pushDifference(foodList.size());
+   pushDifference.setMember(tempDifference);
+   vecList.push_back(pushDifference);
+
+   cout << setw(16) << "Exactly One" << ":";
+   vecList.at(nextVec).print();
+   cout << endl;
+   ++nextVec;
+
+   //"Not Used"
+   vector<bool> tempComplement(foodList.size());
+   tempComplement = Complement(tempUnion); // Complement of "At Least One" to get "Not Used"
+
+   Bvector pushComplement(foodList.size());
+   pushComplement.setMember(tempComplement);
+   vecList.push_back(pushComplement);
+
+   cout << setw(16) << "Not Used" << ":";
+   vecList.at(nextVec).print();
+   cout << endl;
+
+    // Failed Stuff
     for(int i = 0; i < failedItems.size(); i++) // Prints the failed dishes and missing ingredient
     {
         cout << failedItems.at(i);

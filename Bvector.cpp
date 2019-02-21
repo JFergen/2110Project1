@@ -9,12 +9,30 @@ Bvector::Bvector(int s)
     member.resize(size);
 }
 
-bool Bvector::insert(int p)
+void Bvector::setMember(vector<bool> mem)
+{
+    for(int i = 0; i < member.size(); i++)
+    {
+        member[i] = mem[i];
+    }
+}
+
+int Bvector::getSize()
+{
+    return size;
+}
+
+vector<bool> Bvector::getMember()
+{
+    return member;
+}
+
+void Bvector::insert(int p)
 {
     member.at(p) = true;
 }
 
-bool Bvector::remove(int r)
+void Bvector::remove(int r)
 {
     member.at(r) = false;
 }
