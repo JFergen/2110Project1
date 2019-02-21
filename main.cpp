@@ -102,7 +102,7 @@ int main() {
     pushUnion.setMember(tempUnion);
 
     cout << setw(16) << "At Least One" << ":";
-    pushUnion.print();
+    pushUnion.print(); //Printing Bit Vector
     cout << endl;
 
     //"More Than One"
@@ -111,43 +111,41 @@ int main() {
 
     for(int i = 0; i < vecList.size() - 1; i++)
     {
-        for(int j = i + 1; j < vecList.size(); j++)
+        for(int j = i + 1; j < vecList.size(); j++)  // (A∩B) U (A∩C) U ... U (B∩C) U (B∩D) U...
         {
             tempA = Intersection(vecList.at(i).getMember(), vecList.at(j).getMember());
             tempB = Union(tempA, tempB);
         }
     }
 
-    Bvector pushMoreOne(foodList.size());
+    Bvector pushMoreOne(foodList.size()); // Creating Bit Vector
     pushMoreOne.setMember(tempB);
 
     cout << setw(16) << "More Than One" << ":";
-    pushMoreOne.print();
+    pushMoreOne.print(); // Printing Bit Vector
     cout << endl;
 
    //"Exactly One"
    vector<bool> tempDifference(vecList.size());
-   tempDifference = SymmDifference(tempUnion, tempB); // Symm Difference from "At Least One" and "More Than One"
+   tempDifference = SymmDifference(tempUnion, tempB); // Symm Difference of "At Least One" and "More Than One"
 
-   Bvector pushDifference(foodList.size());
+   Bvector pushDifference(foodList.size()); // Creating Bit Vector
    pushDifference.setMember(tempDifference);
 
    cout << setw(16) << "Exactly One" << ":";
-   pushDifference.print();
+   pushDifference.print(); // Printing Bit Vector
    cout << endl;
 
    //"Not Used"
    vector<bool> tempComplement(foodList.size());
    tempComplement = Complement(tempUnion); // Complement of "At Least One" to get "Not Used"
 
-   Bvector pushComplement(foodList.size());
+   Bvector pushComplement(foodList.size()); // Creating Bit Vector
    pushComplement.setMember(tempComplement);
 
    cout << setw(16) << "Not Used" << ":";
-   pushComplement.print();
+   pushComplement.print(); // Printing Bit Vector
    cout << endl;
-
-   cout << vecList.size() << endl;
 
     // Failed Stuff
     for(int i = 0; i < failedItems.size(); i++) // Prints the failed dishes and missing ingredient
