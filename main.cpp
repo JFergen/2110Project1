@@ -92,23 +92,18 @@ int main() {
     //"At Least One"
     startSize = vecList.size(); // Starting size of vecList before the loops
     vector<bool> tempUnion(foodList.size()); // Used to hold the "At Least One" vector
+
     for(int i = 0; i < startSize; i++) // Unioning everything together to get "At Least One"
     {
         tempUnion = Union(tempUnion, vecList.at(i).getMember()); // Unions together everything
-
-        if(i == (startSize - 1))
-        {
-            Bvector pushUnion(foodList.size());
-            pushUnion.setMember(tempUnion);
-
-            vecList.push_back(pushUnion);
-        }
     }
 
+    Bvector pushUnion(foodList.size()); // Bit vector used to hold "At Least One"
+    pushUnion.setMember(tempUnion);
+
     cout << setw(16) << "At Least One" << ":";
-    vecList.at(nextVec).print();
+    pushUnion.print();
     cout << endl;
-    ++nextVec;
 
     //"More Than One"
     vector<bool> tempA(vecList.size());
@@ -116,7 +111,7 @@ int main() {
 
     for(int i = 0; i < vecList.size() - 1; i++)
     {
-        for(int j = i + 1; j < vecList.size() - 1; j++)
+        for(int j = i + 1; j < vecList.size(); j++)
         {
             tempA = Intersection(vecList.at(i).getMember(), vecList.at(j).getMember());
             tempB = Union(tempA, tempB);
@@ -125,12 +120,10 @@ int main() {
 
     Bvector pushMoreOne(foodList.size());
     pushMoreOne.setMember(tempB);
-    vecList.push_back(pushMoreOne);
 
     cout << setw(16) << "More Than One" << ":";
-    vecList.at(nextVec).print();
+    pushMoreOne.print();
     cout << endl;
-    ++nextVec;
 
    //"Exactly One"
    vector<bool> tempDifference(vecList.size());
@@ -138,12 +131,10 @@ int main() {
 
    Bvector pushDifference(foodList.size());
    pushDifference.setMember(tempDifference);
-   vecList.push_back(pushDifference);
 
    cout << setw(16) << "Exactly One" << ":";
-   vecList.at(nextVec).print();
+   pushDifference.print();
    cout << endl;
-   ++nextVec;
 
    //"Not Used"
    vector<bool> tempComplement(foodList.size());
@@ -151,11 +142,12 @@ int main() {
 
    Bvector pushComplement(foodList.size());
    pushComplement.setMember(tempComplement);
-   vecList.push_back(pushComplement);
 
    cout << setw(16) << "Not Used" << ":";
-   vecList.at(nextVec).print();
+   pushComplement.print();
    cout << endl;
+
+   cout << vecList.size() << endl;
 
     // Failed Stuff
     for(int i = 0; i < failedItems.size(); i++) // Prints the failed dishes and missing ingredient
