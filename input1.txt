@@ -1,0 +1,6 @@
+beans,tomatoes,fish,eggs,milk,flour,sugar,yeast,cheese,salt,oil,onions,lemon
+cheese pizza:eggs,milk,flour,yeast,sugar,tomatoes,cheese
+baked fish:fish,lemon
+fried fish:fish,lemon,oil
+smoked fish:fish,smoke,lemon
+beans and fish:beans,fish,lemon

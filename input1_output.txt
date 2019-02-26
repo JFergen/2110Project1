@@ -1,0 +1,12 @@
+The dish smoked fish contains smoke which is not something we have.
+      Dish Name:     beans  tomatoes      fish      eggs      milk     flour     sugar     yeast    cheese      salt       oil    onions     lemon
+   cheese pizza:         0         1         0         1         1         1         1         1         1         0         0         0         0
+     baked fish:         0         0         1         0         0         0         0         0         0         0         0         0         1
+     fried fish:         0         0         1         0         0         0         0         0         0         0         1         0         1
+ beans and fish:         1         0         1         0         0         0         0         0         0         0         0         0         1
+--------------------------------------------------------------------------------------------------------------------------------------------------
+   At Least One:         1         1         1         1         1         1         1         1         1         0         1         0         1
+  More Than One:         0         0         1         0         0         0         0         0         0         0         0         0         1
+    Exactly One:         1         1         0         1         1         1         1         1         1         0         1         0         0
+       Not Used:         0         0         0         0         0         0         0         0         0         1         0         1         0
+
