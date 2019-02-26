@@ -19,7 +19,7 @@ public:
     void setMember(vector<bool> mem);
     int getSize();
     vector<bool> getMember();
-    void insert(int p);
+    void insert(int p); // inserts new
     void print();
     void remove(int r);
 private:
