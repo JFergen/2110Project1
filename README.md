@@ -1,4 +1,4 @@
-# 2110Project1
+
 Bit Vectors
 Joseph Fergen
 
